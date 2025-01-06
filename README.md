@@ -4,7 +4,7 @@
 В разработке
 
 ## Автор 
-[Кобелев Андрей Андреевич](mailto:andrew.a.kobelev@yandex.ru)
+[Кобелев Андрей](mailto:andrew.a.kobelev@yandex.ru)
   
 ## Технологии  
 - [Python 3.11](https://www.python.org/downloads/release/python-3110/)
