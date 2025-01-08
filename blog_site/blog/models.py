@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.db import models
+from django.urls import reverse
 from django.utils import timezone
 
 
@@ -28,7 +29,10 @@ class Post(models.Model):
         related_name='blog_posts',
     )
     title = models.CharField(max_length=TITLE_MAX_LENGTH)
-    slug = models.SlugField(max_length=SLUG_MAX_LENGTH)
+    slug = models.SlugField(
+        max_length=SLUG_MAX_LENGTH,
+        unique_for_date='publish',
+    )
     body = models.TextField()
     publish = models.DateTimeField(default=timezone.now)
     created = models.DateTimeField(auto_now_add=True)
@@ -40,13 +44,24 @@ class Post(models.Model):
     )
 
     objects = models.Manager()  # менеджер, применяемый по умолчанию
-    published = PublishedManager() # конкретно-прикладной менеджер
+    published = PublishedManager()  # конкретно-прикладной менеджер
 
     class Meta:
         ordering = ['-publish']
         indexes = [
             models.Index(fields=['-publish']),
         ]
+
+    def get_absolute_url(self):
+        return reverse(
+            viewname='blog:post_detail',
+            args=[
+                self.publish.year,
+                self.publish.month,
+                self.publish.day,
+                self.slug
+            ]
+        )
 
     def __str__(self):
         return self.title

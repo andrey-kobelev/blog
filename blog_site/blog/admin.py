@@ -13,7 +13,8 @@ class PostAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('title',)}
 
     # При создании поста, в поле автора не будут всплывать все авторы,
-    # а откроется отдельное окно с авторами. Выбрав автора, в поле попадет его id.
+    # а откроется отдельное окно с авторами.
+    # Выбрав автора, в поле попадет его id.
     raw_id_fields = ['author']
     date_hierarchy = 'publish'
     ordering = ['status', 'publish']
