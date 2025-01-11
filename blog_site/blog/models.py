@@ -7,6 +7,7 @@ from django.utils import timezone
 TITLE_MAX_LENGTH = 250
 SLUG_MAX_LENGTH = 250
 STATUS_MAX_LENGTH = 2
+NAME_FOR_COMMENT_MAX_LENGTH = 80
 
 
 User = get_user_model()
@@ -65,3 +66,24 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class Comment(models.Model):
+    post = models.ForeignKey(
+        to=Post,
+        on_delete=models.CASCADE,
+        related_name='comments',
+    )
+    name = models.CharField(max_length=NAME_FOR_COMMENT_MAX_LENGTH)
+    email = models.EmailField()
+    body = models.TextField()
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+    active = models.BooleanField(default=True)
+
+    class Meta:
+        ordering = ['created']
+        indexes = [models.Index(fields=['created']),]
+
+    def __str__(self):
+        return f'Comment by {self.name} on {self.post}'
