@@ -2,7 +2,7 @@ from django.contrib.auth import get_user_model
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
-
+from taggit.managers import TaggableManager
 
 TITLE_MAX_LENGTH = 250
 SLUG_MAX_LENGTH = 250
@@ -46,6 +46,7 @@ class Post(models.Model):
 
     objects = models.Manager()  # менеджер, применяемый по умолчанию
     published = PublishedManager()  # конкретно-прикладной менеджер
+    tags = TaggableManager()
 
     class Meta:
         ordering = ['-publish']
